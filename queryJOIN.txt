@@ -54,6 +54,16 @@ JOIN teachers AS t ON t.id = ct.teacher_id
 WHERE dep.name = "Dipartimento di Matematica"
 ORDER BY t.surname, t.name;
 
+7. BONUS: Selezionare per ogni studente il numero di tentativi sostenuti
+per ogni esame, stampando anche il voto massimo. Successivamente,
+filtrare i tentativi con voto minimo 18.
 
+SELECT s.id AS ID_STUDENTE, s.surname, s.name,  count(*) AS TENTATIVI, c.name AS NOME_ESAME, MAX(es.vote) AS VOTO_MASSIMO
+FROM courses AS c
+JOIN exams AS e ON e.course_id = c.id
+JOIN exam_student AS es ON es.exam_id = e.id
+JOIN students AS s ON s.id = es.student_id
+GROUP BY c.id, s.id
+ORDER BY TENTATIVI DESC;
 
 
