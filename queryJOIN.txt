@@ -1,0 +1,59 @@
+1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
+
+SELECT students.surname, students.name, students.date_of_birth, degrees.name
+FROM students
+JOIN degrees on degrees.id = students.degree_id
+WHERE degrees.name = "Corso di Laurea in Economia";
+
+2. Selezionare tutti i Corsi di Laurea Magistrale del Dipartimento di
+Neuroscienze
+
+SELECT dep.name, deg.name, deg.level
+FROM degrees AS deg
+JOIN departments AS dep ON dep.id = deg.department_id
+WHERE dep.name = "Dipartimento di Neuroscienze"
+AND deg.level = "magistrale";
+
+3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
+
+SELECT t.surname as teacher_surname, t.name teacher_name, c.name as course
+FROM courses AS c
+JOIN course_teacher ON course_teacher.course_id = c.id
+JOIN teachers AS t ON t.id = course_teacher.teacher_id
+WHERE t.id = 44;
+
+4. Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui
+sono iscritti e il relativo dipartimento, in ordine alfabetico per cognome e
+nome
+
+SELECT s.surname, s.name, s.date_of_birth, dep.name
+FROM students AS s
+JOIN degrees AS deg ON deg.id = s.degree_id
+JOIN departments AS dep ON dep.id = deg.department_id
+ORDER BY s.surname, s.name;
+
+5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
+
+SELECT d.name AS NOME_CORSO_LAUREA, d.level AS LIVELLO, c.name AS NOME_CORSO, 
+t.surname AS COGNOME_INSEGNANTE, t.name AS NOME_INSEGNANTE
+FROM degrees AS d
+JOIN courses AS c ON c.degree_id = d.id
+JOIN course_teacher AS ct ON ct.course_id = c.id
+JOIN teachers AS t ON t.id = ct.teacher_id
+ORDER BY d.name;
+
+6. Selezionare tutti i docenti che insegnano nel Dipartimento di
+Matematica (54)
+
+SELECT DISTINCT t.surname AS COGNOME_INSEGNANTE, t.name AS NOME_INSEGNANTE, dep.name AS NOME_DIPARTIMENTO
+FROM departments AS dep
+JOIN degrees AS d ON d.department_id = dep.id
+JOIN courses AS c ON c.degree_id = d.id
+JOIN course_teacher AS ct ON ct.course_id = c.id
+JOIN teachers AS t ON t.id = ct.teacher_id
+WHERE dep.name = "Dipartimento di Matematica"
+ORDER BY t.surname, t.name;
+
+
+
+
