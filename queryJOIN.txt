@@ -64,6 +64,31 @@ JOIN exams AS e ON e.course_id = c.id
 JOIN exam_student AS es ON es.exam_id = e.id
 JOIN students AS s ON s.id = es.student_id
 GROUP BY c.id, s.id
+ORDER BY TENTATIVI DESC, s.surname, s.name;
+
+SELECT s.id AS ID_STUDENTE, s.surname, s.name,  count(*) AS TENTATIVI, c.name AS NOME_ESAME, MAX(es.vote) AS VOTO_MASSIMO
+FROM courses AS c
+JOIN exams AS e ON e.course_id = c.id
+JOIN exam_student AS es ON es.exam_id = e.id
+JOIN students AS s ON s.id = es.student_id
+WHERE es.vote > 17
+GROUP BY c.id, s.id
 ORDER BY TENTATIVI DESC;
 
 
+SELECT s.id AS ID_STUDENTE, s.surname, s.name, c.name AS NOME_ESAME, es.vote
+FROM courses AS c
+JOIN exams AS e ON e.course_id = c.id
+JOIN exam_student AS es ON es.exam_id = e.id
+JOIN students AS s ON s.id = es.student_id
+WHERE s.surname = "Barbieri" AND c.name = "fugit odio sapiente";
+
+7. BONUS: Selezionare il numero di tentativi sostenuti
+per ogni studente con voto minimo 18.
+
+SELECT  s.id, s.surname, s.name, count(*) AS ESITI_POSITIVI
+FROM exam_student AS es
+JOIN students AS s ON s.id = es.student_id
+WHERE es.vote >= 18
+GROUP BY s.id
+ORDER BY ESITI_POSITIVI DESC, s.surname, s.name;
